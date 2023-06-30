@@ -5,4 +5,6 @@
   - tower_receive:
         job_template: "test"
         credential: 'all'
+        controller_config_file: "~/tower_cli.cfg"
+
 
