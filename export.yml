@@ -5,7 +5,7 @@
   - export:
         job_templates: "test"
         credential: 'all'
-  :w- tower_export:
+  - tower_export:
         job_template: "test"
         credential: 'all'
 
