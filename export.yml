@@ -2,10 +2,7 @@
 - name: test export
   hosts: all
   tasks:
-  - export:
-        job_templates: "test"
-        credential: 'all'
-  - tower_export:
+  - tower_receive:
         job_template: "test"
         credential: 'all'
 
