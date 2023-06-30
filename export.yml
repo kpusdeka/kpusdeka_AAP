@@ -2,12 +2,10 @@
 - name: test export
   hosts: all
   tasks:
-    - name: Export all assets
-      export:
+  - export:
         job_templates: "test"
         credential: 'all'
-
-    - tower_export:
+  :w- tower_export:
         job_template: "test"
         credential: 'all'
 
