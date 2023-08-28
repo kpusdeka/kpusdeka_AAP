@@ -1,0 +1,20 @@
+- name: test playbook
+  hosts: localhost
+  tasks:
+
+  - name: "Set vars"
+    set_fact:
+      ec2_instance_name: "SomeName"
+
+  - name: "Gather EC2 instance info: {{ ec2_instance_name }}."
+    community.aws.ec2_instance_info:
+      aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
+      aws_secret_key: "{{ lookup('env', 'AWS_SECRET_KEY') }}"
+      region: "{{ lookup('env', 'AWS_REGION') }}"
+      filters:
+        "tag:Name": "{{ ec2_instance_name }}"
+    register: ec2_instance_info_ret
+
+  - name: "Show data"
+    debug:
+      msg: "{{ec2_instance_info_ret}}"
