@@ -8,3 +8,7 @@
         
     - name: whoami.
       ansible.builtin.command: whoami
+      register: myoutput
+
+    - ansible.builtin.debug: 
+        var: myoutput
