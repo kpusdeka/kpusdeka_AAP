@@ -5,3 +5,6 @@
     - name: create file
       debug:
         msg: hello
+        
+    - name: whoami.
+      ansible.builtin.command: whoami
