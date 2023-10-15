@@ -1,0 +1,13 @@
+---
+- name: Display System Facts
+  hosts: all
+  gather_facts: yes  # This ensures that Ansible gathers facts before running any tasks
+
+  tasks:
+    - name: Gather System Facts
+      setup:
+        gather_subset: 'all'  # This will gather all available facts
+
+    - name: Display Gathered Facts
+      debug:
+        var: ansible_facts
