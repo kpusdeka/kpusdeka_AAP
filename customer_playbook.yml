@@ -1,0 +1,22 @@
+---
+- name: Playbook to update Linux services then restart
+  hosts: all
+  gather_facts: True
+
+  tasks:
+
+  - name: "Check the Redhat subscription status is valid"
+    shell:  rhc status
+    register: echo_results
+
+  - name: "View Redhat subscription status"
+    ansible.builtin.debug:
+      var : echo_results
+      verbosity: 2
+  
+  # Install a Linux feature and reboot if necessary
+  - name: Upgrade all packages
+    ansible.builtin.yum:
+      name: "*"
+      state: latest
+  
