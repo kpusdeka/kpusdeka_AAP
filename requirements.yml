@@ -2,3 +2,4 @@
 collections:
   - name: ansible.builtin
   - name: community.general
+  - name: netbox-netbox-3.14.0.tar.gz
