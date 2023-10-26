@@ -10,5 +10,10 @@
       ansible.builtin.command: whoami
       register: myoutput
 
+    - ansible.posix.firewalld:
+        port: 8081/tcp
+        permanent: true
+        state: disabled
+
     - ansible.builtin.debug: 
         var: myoutput
