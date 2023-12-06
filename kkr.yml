@@ -1,8 +1,9 @@
 ---
-- name: do not permit traffic in default zone on port 8081/tcp
+- name: Do not permit traffic in the default zone on port 8081/tcp
   hosts: all
   tasks:
-    - ansible.posix.firewalld:
-        port: 8099/tcp
+    - name: Disable port 8081/tcp in firewalld
+      ansible.posix.firewalld:
+        port: 8081/tcp  # Corrected port number
         permanent: true
         state: disabled
