@@ -1,6 +1,7 @@
 ---
 - name: create file
   hosts: all
+  connection: local
   tasks:
     - name: create file
       debug:
