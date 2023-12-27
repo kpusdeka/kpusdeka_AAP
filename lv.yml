@@ -3,12 +3,8 @@
   hosts: all
   become: true
   tasks:
-    - community.general.lvg:
-        vg: datavg
-        state: present
-        
     - community.general.lvol:
-        lv: stonebranchlv
+        lv: temp
         vg: datavg
         size: 1g
         state: present
