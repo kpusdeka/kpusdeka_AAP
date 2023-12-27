@@ -3,7 +3,7 @@
   hosts: all
   become: true
   tasks:
-    - community.general.lvol:
+    - ibm.power_aix.lvol:
         lv: temp
         vg: datavg
         size: 1g
