@@ -4,7 +4,6 @@
   become: true
   tasks:
     - ibm.power_aix.lvol:
-        lv: temp
         vg: datavg
-        size: "1G"
-        state: present
+        lv: test1lv
+        size: "64M"
