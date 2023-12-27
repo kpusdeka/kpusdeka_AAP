@@ -6,5 +6,5 @@
     - ibm.power_aix.lvol:
         lv: temp
         vg: datavg
-        size: "1g"
+        size: "1G"
         state: present
