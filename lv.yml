@@ -7,3 +7,4 @@
         vg: datavg
         lv: test1lv
         size: "64M"
+        state: present
