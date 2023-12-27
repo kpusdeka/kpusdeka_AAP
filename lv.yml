@@ -1,0 +1,10 @@
+---
+- name: Stonebranch Logical Volume
+  hosts: all
+  become: true
+  tasks:
+    - community.general.lvol:
+        lv: stonebranchlv
+        vg: datavg
+        size: 1g
+        state: present
