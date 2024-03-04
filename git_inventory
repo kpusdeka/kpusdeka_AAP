@@ -1,6 +1,4 @@
 [new]
-192.168.122.222 ansible_user=root ansible_password=redhat 
+192.168.122.222 
 #vm249-226.gsslab.pnq2.redhat.com ansible_host=10.74.249.226 ansible_user=root ansible_password=redhat
 
-[new:vars]
-ansible_password=redhat
