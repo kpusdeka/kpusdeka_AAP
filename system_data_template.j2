@@ -1,0 +1,16 @@
+System Information:
+-------------------
+Hostname: {{ ansible_hostname }}
+Operating System: {{ ansible_distribution }} {{ ansible_distribution_version }}
+Architecture: {{ ansible_architecture }}
+
+CPU Information:
+----------------
+Model: {{ ansible_processor }}
+Number of Cores: {{ ansible_processor_cores }}
+Speed: {{ ansible_processor_speed }}
+
+Memory Information:
+-------------------
+Total Memory: {{ ansible_memtotal_mb }} MB
+Free Memory: {{ ansible_memfree_mb }} MB
