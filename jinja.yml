@@ -1,0 +1,14 @@
+---
+- name: Capture System Data
+  hosts: localhost
+  gather_facts: yes
+
+  tasks:
+    - name: Fetch system information
+      ansible.builtin.setup:
+      register: system_info
+
+    - name: Render system data template
+      ansible.builtin.template:
+        src: system_data_template.j2
+        dest: ./system_data.txt
