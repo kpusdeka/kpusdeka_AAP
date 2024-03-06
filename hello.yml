@@ -8,13 +8,13 @@
         msg: hello
         
     - name: whoami.
-      ansible.builtin.command: whoami
+      command: whoami
       register: myoutput
 
-    - ansible.posix.firewalld:
+    - firewalld:
         port: 8081/tcp
         permanent: true
         state: disabled
 
-    - ansible.builtin.debug: 
+    - debug: 
         var: myoutput
