@@ -11,9 +11,6 @@
         run_job_template:
           name: hello
           organization: Default
-          job_args:
-            extra_vars:
-              hello: Fred
           retries: 1
           delay: 10
 ...
