@@ -18,5 +18,8 @@
  ## Define the action we should take should the condition be met
 
      action:
-       run_playbook:
-         name: say-what.yml
+       run_job_template:
+          name: hello
+          organization: Default
+          retries: 1
+          delay: 10
