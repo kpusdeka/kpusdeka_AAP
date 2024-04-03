@@ -1,0 +1,27 @@
+---
+- name: Listen for events on a webhook
+  hosts: all
+  sources:
+    - ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 5000
+      filters:
+        - ansible.eda.insert_hosts_to_meta:
+            host_path: payload.event.fields.source
+
+  ## Define the conditions we are looking for
+
+  rules:
+    - name: service|fault state(httpd)
+      condition: event.payload.message == "CRITICAL"    #and event.payload.meta.hosts == "node761.local.net"
+
+       
+  ## Define the action we should take should the condition be met
+
+      action:
+        run_job_template:
+          name: version
+          organization: Default
+
+# curl call to trigger the event
+# curl --header "Content-Type: application/json"   --request POST   --data '{"message": "CRITICAL", "event":{"fields":{"source":"hostname/ip of the source of API call"}}}'   http://eda.server.com:5000/payload
