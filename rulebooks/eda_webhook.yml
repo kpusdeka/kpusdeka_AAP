@@ -19,7 +19,7 @@
 
      action:
        run_job_template:
-          name: hello
-          organization: Default
-          retries: 1
-          delay: 10
+         name: hello
+         organization: Default
+         retries: 1
+         delay: 10
