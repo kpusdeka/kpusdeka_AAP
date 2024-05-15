@@ -5,6 +5,9 @@
   tasks:
   - name: Get a list of the hosts
     vmware.vmware_rest.vcenter_host_info:
+      vcenter_hostname: qweqwe
+      vcenter_password: redhat
+      vcenter_username: qweqwe 
     register: my_hosts
 
   - name: Print the list of hosts
