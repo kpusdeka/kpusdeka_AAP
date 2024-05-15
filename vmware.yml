@@ -1,0 +1,15 @@
+---
+- name: Get a list of the hosts
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Get a list of the hosts
+    vmware.vmware_rest.vcenter_host_info:
+      hostname: 10.74.230.121
+      username: root
+      password: redhat
+    register: my_hosts
+
+  - name: Print the list of hosts
+    debug:
+      var: my_hosts
