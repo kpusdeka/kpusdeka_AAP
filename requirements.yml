@@ -1,5 +1,5 @@
-#---
-#collections:
-#  - name: ansible.posix
- # - name: community.general
+---
+collections:
+  - name: ansible.posix
+  - name: community.general
  # - name: ibm.power_aix
