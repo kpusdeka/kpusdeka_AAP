@@ -1,0 +1,8 @@
+---
+- name: Delete 
+  hosts: all 
+  become: yes
+  tasks: 
+    - shell: |
+        awx login -k -f human --conf.username admin --conf.password redhat
+        awx host -k delete 8 --conf.token 9TC6tDLrRc0Emge2azrw2IUB4MRPal
