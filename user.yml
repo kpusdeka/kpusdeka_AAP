@@ -1,6 +1,6 @@
 ---
 - name: create user
-  hosts: 192.168.122.153
+  hosts: all
   tasks:
     - name: create user
       user:
