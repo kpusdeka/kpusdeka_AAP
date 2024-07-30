@@ -18,3 +18,7 @@
 
     - debug: 
         var: myoutput
+        
+    - name: Print a message
+      community.general.echo:
+        msg: "Hello from the community.general.echo module!"
