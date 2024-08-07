@@ -8,3 +8,9 @@
         username: rhn-support-kpusdeka
         password: 123123
         auto_attach: true
+
+    - name: Disable all repositories except rhel-7-server-rpms
+      community.general.rhsm_repository:
+        name: ansible-automation-platform-2.4-for-rhel-8-x86_64-rpms
+        state: enabled
+
