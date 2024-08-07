@@ -1,0 +1,10 @@
+---
+- name: Adding subs
+  hosts: all
+  tasks: 
+    - name: Register as user (joe_user) with password (somepass) and auto-subscribe to available content.
+      redhat.rhel_system_roles.redhat_subscription:
+        state: present
+        username: rhn-support-kpusdeka
+        password: 123123
+        auto_attach: true
