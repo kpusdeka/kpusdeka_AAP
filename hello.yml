@@ -19,9 +19,9 @@
     - debug: 
         var: myoutput
         
-    - name: Print a message
-      community.general.ini_file:
-        path: /tmp/example.ini
-        section: section1
-        option: option1
-        value: value1
+    #- name: Print a message
+     #community.general.ini_file:
+       # path: /tmp/example.ini
+        #section: section1
+        #option: option1
+       # value: value1
