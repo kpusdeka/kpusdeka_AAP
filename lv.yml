@@ -3,8 +3,7 @@
   hosts: all
   become: true
   tasks:
-    - ibm.power_aix.lvol:
-        vg: datavg
-        lv: test1lv
-        size: "64M"
-        state: present
+    - name: Using deprecated sudo option
+      ansible.builtin.command:
+        cmd: whoami
+      sudo: yes
