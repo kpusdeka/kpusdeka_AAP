@@ -1,7 +1,6 @@
 ---
 - name: create file
   hosts: all
-  collections_paths: /var/lib/awx/projects/collections:/usr/share/ansible/collections/ansible_collections
   
   tasks:
     - name: create file
