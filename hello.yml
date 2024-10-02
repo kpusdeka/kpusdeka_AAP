@@ -21,7 +21,7 @@
 
     - name: Include external tasks
       ansible.builtin.include:
-        file: tasks/common_tasks.yml
+        file: lv.yml
     #- name: Print a message
      #community.general.ini_file:
        # path: /tmp/example.ini
