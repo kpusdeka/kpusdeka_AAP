@@ -1,6 +1,7 @@
 ---
 - name: create file
   hosts: all
+  collections_paths: 
   
   tasks:
     - name: create file
