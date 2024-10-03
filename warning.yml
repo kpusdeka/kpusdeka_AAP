@@ -1,0 +1,7 @@
+--- 
+- name: test warning 
+  hosts: all
+  tasks: 
+
+    - name: clean yum repos
+      command: "yum clean all --enablerepo=*"
