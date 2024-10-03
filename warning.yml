@@ -5,3 +5,4 @@
 
     - name: clean yum repos
       command: "yum clean all --enablerepo=*"
+      no_log: True
