@@ -19,9 +19,9 @@
     - debug: 
         var: myoutput
 
-    - name: Include external tasks
-      ansible.builtin.include:
-        file: lv.yml
+    #- name: Include external tasks
+     # ansible.builtin.include:
+       # file: lv.yml
     #- name: Print a message
      #community.general.ini_file:
        # path: /tmp/example.ini
