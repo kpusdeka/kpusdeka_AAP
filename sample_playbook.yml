@@ -1,5 +1,6 @@
 ---
-- name: Checking if hosts are recheable
+- name: Checking if hosts are reachable
+  hosts: all
   gather_facts: true
   tasks:
     - name: ensure if host is online
