@@ -9,4 +9,4 @@
       
     - name: show result of ping
       ansible.builtin.debug:
-        var: ping_result 
+        var: "{{ ping_result }}"
