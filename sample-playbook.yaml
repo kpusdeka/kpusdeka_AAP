@@ -1,0 +1,11 @@
+---
+- name: Checking if hosts are recheable
+  gather_facts: true
+  tasks:
+    - name: ensure if host is online
+      ansible.builtin.ping:
+      register: ping_result
+      
+    - name: show result of ping
+      ansible.builtin.debug:
+        var: "{{ ping_result }}"
