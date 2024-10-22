@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  become_user: kunal
+  gather_facts: yes
+
+
+  tasks: 
+    - dbug:
+    
