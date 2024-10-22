@@ -1,5 +1,5 @@
 ---
-- hosts: 192.168.122.112
+- hosts: all
   become: yes
   become_method: sudo
   become_user: kunal
