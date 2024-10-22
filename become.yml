@@ -7,5 +7,7 @@
 
 
   tasks: 
-    - dbug:
+    - name: create file
+      debug:
+        msg: hello
     
