@@ -1,6 +1,6 @@
 - hosts: all
 
 - name: Upgrade installed packages
-  win_chocolatey:
+  chocolatey.chocolatey.win_chocolatey:
     name: all
     state: latest
