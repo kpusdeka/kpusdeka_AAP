@@ -1,9 +1,10 @@
 ---
-hosts: windows
-tasks:
 - name: Install firefox
-  chocolatey.chocolatey.win_chocolatey:
-    name: '{{ item }}'
-    state: present
-  loop:
-  - firefox
+  hosts: all
+  tasks:
+    - name: Install Firefox
+      chocolatey.chocolatey.win_chocolatey:
+        name: '{{ item }}'
+        state: present
+      loop:
+        - firefox
