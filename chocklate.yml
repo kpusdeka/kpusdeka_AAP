@@ -1,6 +1,8 @@
-- hosts: all
-
-- name: Upgrade installed packages
-  chocolatey.chocolatey.win_chocolatey:
-    name: all
-    state: latest
+---
+- name: Install firefox
+  hosts: all
+  tasks: 
+    - name: Upgrade installed packages
+      chocolatey.chocolatey.win_chocolatey:
+        name: all
+        state: latest
