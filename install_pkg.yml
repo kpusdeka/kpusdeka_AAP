@@ -1,13 +1,14 @@
-hosts: all
-tasks: 
-  - name: Install package
-    ansible.builtin.package:
-      name: "{{ item }}"
-      state: present
-    loop:
-      - "telnet"
-      - "nmap"
-    register: install_status
+---
+  hosts: all
+  tasks: 
+    - name: Install package
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - "telnet"
+        - "nmap"
+      register: install_status
 
-  - debug:
-      msg: install_status
+    - debug:
+        msg: install_status
