@@ -1,8 +1,9 @@
 ---
 - hosts: all
-  become: true
-  become_user: root
-  ansible_become_password: redhat
+  vars:
+    ansible_become: true
+    ansible_become_user: root
+    ansible_become_password: redhat
   tasks: 
     - name: Install package
       ansible.builtin.package:
