@@ -2,6 +2,8 @@
 - name: Debug output from vars section
   hosts: all
   gather_facts: no
+  vars_files:
+    - vars.yml
   tasks:
     - name: Debug my_variable
       ansible.builtin.debug:
