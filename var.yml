@@ -11,10 +11,3 @@
       ansible.builtin.debug:
         msg: "{{ another_variable }}"
 
-    - name: Debug list_variable
-      ansible.builtin.debug:
-        msg: "{{ list_variable }}"
-
-    - name: Debug dict_variable
-      ansible.builtin.debug:
-        msg: "{{ dict_variable }}"
