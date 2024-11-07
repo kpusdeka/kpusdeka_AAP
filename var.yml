@@ -1,0 +1,20 @@
+---
+- name: Debug output from vars section
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Debug my_variable
+      ansible.builtin.debug:
+        msg: "{{ my_variable }}"
+
+    - name: Debug another_variable
+      ansible.builtin.debug:
+        msg: "{{ another_variable }}"
+
+    - name: Debug list_variable
+      ansible.builtin.debug:
+        msg: "{{ list_variable }}"
+
+    - name: Debug dict_variable
+      ansible.builtin.debug:
+        msg: "{{ dict_variable }}"
