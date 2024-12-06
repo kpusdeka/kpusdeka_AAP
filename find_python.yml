@@ -1,6 +1,5 @@
 ---
 - name: Collect details of all SVMs and save to a file
-  #hosts: ngddlvc0038.it.statestr.com:ngddlvc0039.it.statestr.com:lcptlvc0005
   hosts: all
   tasks:
     - name: Determine Python interpreter path
