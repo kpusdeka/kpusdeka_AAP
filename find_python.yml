@@ -22,4 +22,4 @@
 
     - name: Display command output
       debug:
-        msg: "Command output on {{ hosts }}: {{ command_output }}"
+        msg: "Command output on {{ inventory_hostname }}: {{ command_output }}"
