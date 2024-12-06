@@ -1,0 +1,26 @@
+---
+- name: Collect details of all SVMs and save to a file
+  #hosts: ngddlvc0038.it.statestr.com:ngddlvc0039.it.statestr.com:lcptlvc0005
+  hosts: all
+  tasks:
+    - name: Determine Python interpreter path
+      set_fact:
+        ansible_python_interpreter: "{{ item }}"
+      loop:
+        - /usr/bin/python
+        - /usr/libexec/platform-python
+        - /usr/bin/python2.7
+        - /usr/bin/python2.6
+        - /usr/bin/python3
+        - /usr/local/bin/python3
+        - /opt/python3.8/bin/python3
+        - /usr/local/bin/python
+      when: ansible_python_interpreter is not defined
+
+    - name: Run command uing interpreter
+      shell: "{{ ansible_python_interpreter }} -c 'import platform; print(platform.system())'"
+      register: command_output
+
+    - name: Display command output
+      debug:
+        msg: "Command output on {{ target_host }}: {{ command_output }}"
