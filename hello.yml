@@ -14,6 +14,11 @@
     - debug: 
         var: myoutput
 
+    - name: Wait for 30 seconds before proceeding
+      pause:
+        seconds: 130
+      
+
     #- name: Include external tasks
      # ansible.builtin.include:
        # file: lv.yml
