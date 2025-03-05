@@ -16,7 +16,7 @@
 
     - name: Wait for 30 seconds before proceeding
       pause:
-        seconds: 130
+        seconds: 1300
       
 
     #- name: Include external tasks
