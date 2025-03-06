@@ -1,0 +1,14 @@
+---
+- name: Print a path example
+  hosts: all
+  vars_files:
+    - /runner/projects/DRILL/test_details.yml
+  tasks:
+    - name: Edit Startup Properties File
+      replace:
+        dest: "{{ item }}"
+        replace: '{{ admin_node }}\:{{ admin_port }}'
+        regexp: '10.115.*'
+        backup: yes
+      with_items:
+        - \runner\projects\DRILL\nodemanager\test_startup.properties
