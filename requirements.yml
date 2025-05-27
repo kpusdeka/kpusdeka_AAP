@@ -2,3 +2,6 @@
 collections: 
 - name: chocolatey.chocolatey
 - name: ansible.eda
+roles: 
+- name: curole
+  src: git+file:///./
