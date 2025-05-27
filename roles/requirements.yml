@@ -1,4 +1,4 @@
 ---
 roles: 
 - name: curole
-  src: git+file:///.
+  src: git+file:///
