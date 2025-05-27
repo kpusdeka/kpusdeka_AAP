@@ -1,6 +1,6 @@
 ---
 roles: 
 - name: curole
-  src: git+file://./
+  src: git+file:///var/lib/awx/projects/_52__kp_git/
 
   # /var/lib/awx/projects/_52__kp_git/
