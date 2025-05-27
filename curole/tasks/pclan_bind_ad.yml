@@ -1,0 +1,100 @@
+---
+- name: Leave AD system
+  ansible.builtin.command: /bin/bash -c "echo {{ ad_password }} | realm leave --user={{ ad_username }} -r -v"
+#      no_log: True
+  register: leave_output
+  ignore_errors: true
+  become: true
+
+- name: Remove KRB5 keytab
+  ansible.builtin.file:
+    state: absent
+    path: /etc/krb5.keytab
+  become: true
+
+#- name: Move and rename smb.conf
+#  ansible.builtin.copy:
+#    src: "/etc/samba/smb.conf"  # Assuming this is the full path
+#    dest: "/etc/samba/smb.conf.bak"
+#    remote_src: true
+#    force: true
+
+#- name: Delete smb.conf
+#  ansible.builtin.file:
+#    state: absent
+#    path: /etc/samba/smb.conf
+#  become: true
+
+- name: Move and rename sssd.conf
+  ansible.builtin.copy:
+    src: "/etc/sssd/sssd.conf"  # Assuming this is the full path
+    dest: "/etc/sssd/sssd.conf.bak"
+    remote_src: true
+    force: true
+
+- name: Delete sssd.conf
+  ansible.builtin.file:
+    state: absent
+    path: /etc/sssd/sssd.conf
+  become: true
+
+- name: Move and rename krb5.conf
+  ansible.builtin.copy:
+    src: "/etc/krb5.conf"  # Assuming this is the full path
+    dest: "/etc/krb5.conf.bak"
+    remote_src: true
+    force: true
+
+- name: Delete krb5.conf
+  ansible.builtin.file:
+    state: absent
+    path: /etc/krb5.conf
+  become: true
+
+- name: Install AD Auth packages
+  ansible.builtin.package:
+    name: "{{ rhel_ad_auth_packages }}"
+    state: present
+  become: true
+
+- name: Join an Active Directory
+  ansible.builtin.include_role:
+    name: linux-system-roles.ad_integration
+  vars:
+    ad_integration_user: "{{ ad_username }}"
+    ad_integration_password: "{{ ad_password }}"
+    ad_integration_realm: "pclan.schnucks.com"
+    ad_integration_allow_rc4_crypto: false
+    ad_integration_timesync_source: "schnucks-ad1.pclan.schnucks.com"
+    ad_integration_computer_ou: "OU=Linux,OU=Servers,OU=Computers,OU=Schnucks,DC=pclan,DC=schnucks,DC=com"
+    ad_integration_join_to_dc: "schnucks-ad1.pclan.schnucks.com"
+    ad_integration_sssd_settings:
+      - key: services
+        value: nss, pam, ssh, sudo
+    ad_integration_sssd_custom_settings:
+      - key: ad_domain
+        value: '{{ ad_domains[ad_domain_choice] }}'
+#      - key: default_domain_suffix
+#        value: '{{ ad_domain }}'
+      - key: use_fully_qualified_names
+        value: false
+      - key: dyndns_refresh_interval
+        value: 43200
+      - key: fallback_homedir
+        value: '/home/%u'
+      - key: override_homedir
+        value: /home/%u
+      - key: auth_provider
+        value: 'ad'
+      - key: sudo_provider
+        value: 'ad'
+      - key: simple_allow_groups
+        value: Linux_Global_SSH, Linux_Global_Admin, Linux_everlab_SSH, Linux_tmp_SSH
+#      - key: ignore_group_members
+#        value: true
+      - key: ad_gpo_access_control
+        value: disabled
+      - key: ad_enable_gc
+        value: false
+      - key: chpass_provider
+        value: 'ad'

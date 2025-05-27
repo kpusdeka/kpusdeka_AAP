@@ -1,0 +1,57 @@
+---
+#- name: Remove krb5 keytab
+#  ansible.builtin.file:
+#    path: /etc/krb5.keytab
+#    state: absent
+#  become: true
+
+#- name: Move smb.conf sssd.conf and krb5.conf to bak files
+#  ansible.builtin.copy:
+#    src: {{ items }}
+#    dest: 
+
+# Do NOT use this with default_domain_suffix!!!!!
+#- name: Ensure 'use_fully_qualified_names = False' is in sssd.conf (no duplicates)
+#  ansible.builtin.lineinfile:
+#    path: /etc/sssd/sssd.conf
+#    line: 'use_fully_qualified_names = False'
+#    state: present
+#    create: true
+#    backup: true
+#    regexp: '^use_fully_qualified_names\s*='
+#  register: sssd_config_changed
+#  become: true
+
+- name: Add domain suffix to sssd.conf
+  ansible.builtin.lineinfile:
+    path: /etc/sssd/sssd.conf
+    line: "default_domain_suffix = {{ ad_domains[ad_domain_choice].split('.', 1)[1] }}"
+    state: present
+    create: true
+    backup: true
+    insertafter: 'services = nss, pam'
+  register: sssd_config_changed
+  become: true
+
+- name: Restart sssd service
+  ansible.builtin.systemd_service:
+    name: sssd.service
+    state: restarted
+  when: sssd_config_changed.changed
+  register: sssd_restart_status
+  become: true
+
+- name: Check sssd service status
+  ansible.builtin.systemd_service:
+    name: sssd.service
+    state: started
+  register: sssd_status
+  become: true
+
+- name: Display sssd service status
+  ansible.builtin.debug:
+    var: sssd_status
+
+- name: Error
+  debug:
+    msg: "Please re-run the template with the correct provided domain/forest"

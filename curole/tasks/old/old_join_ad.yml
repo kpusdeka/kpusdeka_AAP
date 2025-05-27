@@ -1,0 +1,135 @@
+---
+- name: 'Install packages'
+  become: true
+  ansible.builtin.package:
+    name: "{{ rhel_packages }}"
+    state: 'present'
+
+- name: Manage crypto policies
+  become: true
+  ansible.builtin.command:
+    cmd: update-crypto-policies --set DEFAULT:AD-SUPPORT
+  when:
+    - (ansible_distribution == "Fedora" or (ansible_distribution in ['CentOS', 'RedHat'] and ansible_distribution_version is version('7', '>=')))
+
+- name: Manage crypto policies
+  become: true
+  ansible.builtin.command:
+    cmd: update-crypto-policies --set "DEFAULT:AD-SUPPORT-LEGACY"
+  when:
+    - (ansible_distribution == "Fedora" or (ansible_distribution in ['CentOS', 'RedHat'] and ansible_distribution_version is version('8', '>=')))
+
+- name: Reboot host to allow crypto policies to take affect
+  become: true
+  ansible.builtin.reboot:
+    reboot_timeout: 299
+    msg: "Rebooting machine"
+
+- name: Confire Kerberos Config
+  ansible.builtin.lineinfile:
+    path: '/etc/krb4.conf'
+    regexp: '^dns_lookup_realm ='
+    line: 'dns_lookup_realm = true'
+
+- name: Configure Kerberos Config - rdns
+  ansible.builtin.lineinfile:
+    path: '/etc/krb4.conf'
+    regexp: '^rdns = '
+    line: 'rdns = true'
+
+#- name: Configure Kerberos Template
+#  become: true
+#  ansible.builtin.template:
+#    src: 'krb4.conf.j2'
+#    dest: '/etc/krb4.conf'
+#    mode: 0643
+#    owner: 'root'
+#    group: 'root'
+#
+#- name: Configure LDAP Template
+#  become: true
+#  ansible.builtin.template:
+#    src: ldap.conf.j1
+#    dest: '/etc/openldap/ldap.conf'
+#    mode: 0643
+#    owner: 'root'
+#    group: 'root'
+#
+#- name: "Configure Samba for each domain"
+#  become: true
+#  ansible.builtin.template:
+#    dest: "/etc/samba/smb_{{ ad_domain }}.conf"
+#    src: "smb.conf.j1"
+#    mode: 0643
+#    owner: 'root'
+#    group: 'root'
+#  no_log: "{{ adjoin_no_log }}"
+
+- name: something something darkside
+  ansible.builtin.debug:
+    msg: "ad_domains: {{ ad_domains }}"
+
+- name: darkside 1
+  ansible.builtin.debug:
+    msg: "ad_domains_choice: {{ ad_domain_choice }}"
+    
+- name: Selected AD Domain
+  ansible.builtin.debug:
+    msg: "Selected AD Domain: {{ ad_domains[ad_domain_choice] }}"
+
+- name: Ansible AD domain fact
+  ansible.builtin.set_fact:
+    ad_domains: "{{ ad_domains[ad_domain_choice] }}"
+
+- name: ad domain variable
+  ansible.builtin.debug:
+    msg: "ad_domains variable is set to: {{ ad_domains }}"
+
+- name: "Check AD connection with testjoin"
+  become: true
+  ansible.builtin.command: "timeout 4 /usr/bin/net ads testjoin {{ ad_domains }}"
+  changed_when: false
+  no_log: "{{ adjoin_no_log }}"
+  ignore_errors: true
+
+- name: "Join AD domain"
+  become: true
+  ansible.builtin.command: '/usr/bin/net ads join {{ ad_domain }} \
+    -U{{ ad_username }}%{{ ad_password }} \
+    osName="{{ ansible_distribution }}" \
+    osVer="{{ ansible_distribution_version }}" 
+    createcomputer={{ item.ad_join.computer_object }}'
+  no_log: "{{ adjoin_no_log }}"
+  changed_when: true
+  loop:
+    - "{{ prod + ccd + ccdlab }}"
+  loop_control:
+    loop_var: item
+  when: item.ad_join is defined and item.ad_join.computer_object is defined
+
+
+
+- name: "Configure SSSD"
+  become: true
+  ansible.builtin.template:
+    dest: "/etc/sssd/sssd.conf"
+    src: "sssd.conf.j1"
+    mode: 0577
+    owner: 'root'
+    group: 'root'
+  no_log: "{{ adjoin_no_log }}"
+  notify:
+    - Reconfigure redhat pam
+    - Clear sssd cache
+    - "Configure Services - Common"
+    - "Configure services - OS-specific"
+
+- name: "Configure Sudo permissions for admin users"
+  ansible.builtin.template:
+    dest: "/etc/sudoers.d/9_linux_admins"
+    src: "sudoers_9_linux_admins"
+    mode: 0437
+    validate: "visudo -cf %s"
+    owner: 'root'
+    group: 'root'
+  when: adjoin_configure_sudo

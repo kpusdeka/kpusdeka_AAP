@@ -1,0 +1,30 @@
+---
+- name: Wait for 90sec for proceeding
+  ansible.builtin.pause:
+    seconds: 90
+
+- name: Set ad_domain fact
+  ansible.builtin.set_fact:
+    ad_domain: "{{ ad_domains[ad_domain_choice].split('.', 1)[1] }}"
+  when: ad_domains[ad_domain_choice] is defined
+
+
+- name: Include Bind AD Task
+  ansible.builtin.include_tasks: pclan_bind_ad.yml
+  when: "'forreman_generic_servers_pclan' in group_names"
+
+- name: Include CCD Bind AD Task
+  ansible.builtin.include_tasks: ccd_bind_ad.yml
+  when: "'foreman_generic_servers_ccd' in group_names"
+
+- name: Include CCDLAB Bind AD Task
+  ansible.builtin.include_tasks: ccdlab_bind_ad.yml
+  when: "'foreman_generic_servers_ccdlab' in group_names"
+
+#- name: Run Join Ad RHEL Task
+#  ansible.builtin.include_tasks: join_ad_rhel.yml
+
+#- name: Run Old Join AD Task
+# ansible.builtin.include_task: old_join_ad.yml
+
+# tasks file for config_adjoin

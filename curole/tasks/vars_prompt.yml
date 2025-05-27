@@ -1,0 +1,15 @@
+  vars_prompt:
+    - name: ad_domain_choice
+      prompt: "\nEnter which AD Domain you are joining\n1 - pclan.schnucks.com\n2 - ccd.schnucks.com\n3 - ccdlab.schnucks.com\nChoice"
+      private: false
+    - name: ad_username
+      prompt: Enter your AD Username
+      private: false
+    - name: ad_password
+      prompt: Enter your AD Password
+      private: true
+  vars:
+    ad_domains:
+      "1": pclan.schnucks.com
+      "2": ccd.schnucks.com
+      "3": ccdlab.schnucks.com

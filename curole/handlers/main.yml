@@ -1,0 +1,46 @@
+---
+- name: "Configure Services - Common"
+  become: true
+  ansible.builtin.systemd:
+    name: "{{ service.name }}"
+    enabled: "{{ service.enabled }}"
+    masked: "{{ service.masked }}"
+    state: "{{ service.state }}"
+  loop:
+    - {'name':'sssd', 'enabled':'yes', 'masked':'no', 'state':'started'}
+    - {'name':'dbus', 'enabled':'yes', 'masked':'no', 'state':'started'}
+    - {'name':'systemd-logind', 'enabled':'no', 'masked':'yes', 'state':'stopped'}
+  loop_control:
+    loop_var: 'service'
+
+- name: "Configure services - OS-specific"
+  become: true
+  ansible.builtin.systemd:
+    name: "{{ service.name }}"
+    enabled: "{{ service.enabled }}"
+    masked: "{{ service.masked }}"
+    state: "{{ service.state }}"
+  loop: "{{ os_specific_services }}"
+  loop_control:
+    loop_var: 'service'
+  when: os_specific_services is defined
+
+- name: 'Reconfigure redhat pam'
+  become: true
+  ansible.builtin.command: "/usr/sbin/authconfig --enablesssd --enablerfc2307bis --enablesssdauth --disableforcelegacy --enablelocauthorize --enablemkhomedir --enablepamaccess --updateall"
+  changed_when: true
+  when: ansible_os_family == "RedHat"
+
+- name: 'Restart sssd'
+  become: true
+  ansible.builtin.systemd:
+    name: 'sssd'
+    state: 'restarted'
+
+- name: 'Clear sssd cache'
+  become: true
+  ansible.builtin.command: '/usr/sbin/sss_cache -E'
+  changed_when: true
+  failed_when: false
+
+# handlers file for config_adjoin
