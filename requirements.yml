@@ -1,4 +1,4 @@
 ---
 collections: 
-- name: chocolatey.chocolatey
-- name: ansible.eda
+#- name: chocolatey.chocolatey
+#- name: ansible.eda
