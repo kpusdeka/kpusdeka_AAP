@@ -3,6 +3,10 @@
   hosts: all
   gather_facts: false
   tasks:
+    - name: Wait for 30 seconds before proceeding
+      pause:
+        seconds: 130
+      
     - name: Copy the file to the delegated host
       ansible.builtin.copy:
         src: /var/lib/awx/projects/files/text/check/imp.txt
