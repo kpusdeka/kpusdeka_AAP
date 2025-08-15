@@ -1,0 +1,11 @@
+---
+- name: Copy file with delegation
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Copy the file to the delegated host
+      ansible.builtin.copy:
+        src: /var/lib/awx/projects/files/text/check/imp.txt
+        dest: /tmp/imp.txt
+      delegate_to: 10.74.230.9
+      run_once: true
