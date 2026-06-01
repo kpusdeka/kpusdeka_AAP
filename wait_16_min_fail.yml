@@ -1,0 +1,12 @@
+---
+- name: Wait 16 minutes then fail (Hello job template never runs)
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Wait 16 minutes
+      ansible.builtin.pause:
+        minutes: 16
+
+    - name: Fail before Controller job template Hello would run
+      ansible.builtin.fail:
+        msg: Intentional failure after 16 minutes; Hello was not launched
