@@ -1,0 +1,18 @@
+---
+- name: Activation that fails before reaching AAP
+  hosts: all
+  sources:
+    - name: noop-source
+      ansible.eda.generic:
+        payload:
+          - message: "trigger"
+        loop_delay: 1
+        loop_count: 1
+
+  rules:
+    - name: Fail the activation without calling AAP
+      condition: event.payload.message == "trigger"
+      actions:
+        - shutdown:
+            delay: 960        # 16 minutes in seconds
+            message: "Intentional shutdown before AAP is reached"
