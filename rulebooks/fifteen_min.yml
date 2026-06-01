@@ -1,18 +1,15 @@
 ---
-- name: Activation that fails before reaching AAP
+- name: hello_never_runs_wait_16m_fail
   hosts: all
   sources:
-    - name: noop-source
-      ansible.eda.generic:
-        payload:
-          - message: "trigger"
-        loop_delay: 1
-        loop_count: 1
-
+    - name: trigger_once
+      eda.builtin.range:
+        limit: 1
   rules:
-    - name: Fail the activation without calling AAP
-      condition: event.payload.message == "trigger"
-      actions:
-        - shutdown:
-            delay: 960        # 16 minutes in seconds
-            message: "Intentional shutdown before AAP is reached"
+    - name: Wait 16 minutes then fail before Hello job template
+      condition: event.i == 0
+      action:
+        run_job_template:
+          name: fifteen_min
+          organization: Default
+          retries: 0
