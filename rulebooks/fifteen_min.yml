@@ -1,15 +1,14 @@
 ---
-- name: hello_never_runs_wait_16m_fail
+- name: activation_fail_before_hello
   hosts: all
   sources:
-    - name: trigger_once
+    - name: fail_at_startup
       eda.builtin.range:
-        limit: 1
+        limit: not_a_number
   rules:
-    - name: Wait 16 minutes then fail before Hello job template
+    - name: Hello must never run
       condition: event.i == 0
       action:
         run_job_template:
-          name: fifteen_min
+          name: Hello
           organization: Default
-          retries: 0
